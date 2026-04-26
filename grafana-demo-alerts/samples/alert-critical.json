@@ -1,0 +1,9 @@
+{
+  "alertId": "ALT-0001",
+  "facilityId": "FAC-001",
+  "facilityName": "第一変電所",
+  "severity": "critical",
+  "alertType": "temperature_high",
+  "message": "温度上昇を検知しました",
+  "occurredAt": "2026-04-25T10:00:00+09:00"
+}

@@ -1,0 +1,21 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+# .terraform.lock.hcl は再現性のためコミットする（除外しない）
+
+# Lambda パッケージング
+*.zip
+__pycache__/
+*.pyc
+
+# Logs
+*.log
+
+# Environment / Secrets
+.env
+.env.*
+credentials
+credentials.json
