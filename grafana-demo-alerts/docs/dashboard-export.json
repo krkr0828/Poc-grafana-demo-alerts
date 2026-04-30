@@ -1,0 +1,892 @@
+{
+    "__inputs": [
+        {
+            "name": "DS_CLOUDWATCH",
+            "label": "cloudwatch",
+            "description": "",
+            "type": "datasource",
+            "pluginId": "cloudwatch",
+            "pluginName": "CloudWatch"
+        }
+    ],
+    "__elements": {},
+    "__requires": [
+        {
+            "type": "panel",
+            "id": "barchart",
+            "name": "Bar chart",
+            "version": ""
+        },
+        {
+            "type": "datasource",
+            "id": "cloudwatch",
+            "name": "CloudWatch",
+            "version": "1.0.0"
+        },
+        {
+            "type": "grafana",
+            "id": "grafana",
+            "name": "Grafana",
+            "version": "10.4.1"
+        },
+        {
+            "type": "panel",
+            "id": "stat",
+            "name": "Stat",
+            "version": ""
+        },
+        {
+            "type": "panel",
+            "id": "timeseries",
+            "name": "Time series",
+            "version": ""
+        }
+    ],
+    "annotations": {
+        "list": [
+            {
+                "builtIn": 1,
+                "datasource": {
+                    "type": "grafana",
+                    "uid": "-- Grafana --"
+                },
+                "enable": true,
+                "hide": true,
+                "iconColor": "rgba(0, 211, 255, 1)",
+                "name": "Annotations & Alerts",
+                "type": "dashboard"
+            }
+        ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": null,
+    "links": [],
+    "panels": [
+        {
+            "datasource": {
+                "type": "cloudwatch",
+                "uid": "${DS_CLOUDWATCH}"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "fillOpacity": 80,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "lineWidth": 1,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 0
+            },
+            "id": 8,
+            "options": {
+                "barRadius": 0,
+                "barWidth": 0.97,
+                "fullHighlight": false,
+                "groupWidth": 0.7,
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "orientation": "auto",
+                "showValue": "auto",
+                "stacking": "none",
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                },
+                "xTickLabelRotation": 0,
+                "xTickLabelSpacing": 0
+            },
+            "pluginVersion": "10.4.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "cloudwatch",
+                        "uid": "${DS_CLOUDWATCH}"
+                    },
+                    "dimensions": {},
+                    "expression": "fields @timestamp, @message\n| parse @message '\"severity\":\"*\"' as severity\n| parse @message '\"event\":\"*\"' as event\n| filter event = \"REQUEST_RECEIVED\"\n| filter ispresent(severity)\n| stats count() as cnt by severity",
+                    "id": "",
+                    "label": "",
+                    "logGroups": [
+                        {
+                            "accountId": "851725351287",
+                            "arn": "arn:aws:logs:ap-northeast-1:851725351287:log-group:/aws/lambda/grafana-demo-alert-handler:*",
+                            "name": "/aws/lambda/grafana-demo-alert-handler"
+                        }
+                    ],
+                    "matchExact": true,
+                    "metricEditorMode": 0,
+                    "metricName": "",
+                    "metricQueryType": 0,
+                    "namespace": "",
+                    "period": "",
+                    "queryMode": "Logs",
+                    "refId": "A",
+                    "region": "ap-northeast-1",
+                    "sqlExpression": "",
+                    "statistic": "Average",
+                    "statsGroups": [
+                        "severity"
+                    ]
+                }
+            ],
+            "title": "severity \u5225\u30a2\u30e9\u30fc\u30c8\u4ef6\u6570",
+            "type": "barchart"
+        },
+        {
+            "datasource": {
+                "type": "cloudwatch",
+                "uid": "${DS_CLOUDWATCH}"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 8
+            },
+            "id": 7,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "auto",
+                "wideLayout": true
+            },
+            "pluginVersion": "10.4.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "cloudwatch",
+                        "uid": "${DS_CLOUDWATCH}"
+                    },
+                    "dimensions": {},
+                    "expression": "fields @timestamp, @message\n| filter @message like /STORED/\n| stats count() as total_alerts",
+                    "id": "",
+                    "label": "",
+                    "logGroups": [
+                        {
+                            "accountId": "851725351287",
+                            "arn": "arn:aws:logs:ap-northeast-1:851725351287:log-group:/aws/lambda/grafana-demo-alert-handler:*",
+                            "name": "/aws/lambda/grafana-demo-alert-handler"
+                        }
+                    ],
+                    "matchExact": true,
+                    "metricEditorMode": 0,
+                    "metricName": "",
+                    "metricQueryType": 0,
+                    "namespace": "",
+                    "period": "",
+                    "queryMode": "Logs",
+                    "refId": "A",
+                    "region": "ap-northeast-1",
+                    "sqlExpression": "",
+                    "statistic": "Average",
+                    "statsGroups": []
+                }
+            ],
+            "title": "\u30a2\u30e9\u30fc\u30c8\u7dcf\u4ef6\u6570",
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "type": "cloudwatch",
+                "uid": "${DS_CLOUDWATCH}"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 16
+            },
+            "id": 6,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "cloudwatch",
+                        "uid": "${DS_CLOUDWATCH}"
+                    },
+                    "dimensions": {
+                        "TableName": "grafana-demo-alerts"
+                    },
+                    "expression": "",
+                    "id": "",
+                    "label": "",
+                    "logGroups": [],
+                    "matchExact": true,
+                    "metricEditorMode": 0,
+                    "metricName": "ConsumedWriteCapacityUnits",
+                    "metricQueryType": 0,
+                    "namespace": "AWS/DynamoDB",
+                    "period": "",
+                    "queryMode": "Metrics",
+                    "refId": "A",
+                    "region": "default",
+                    "sqlExpression": "",
+                    "statistic": "Sum"
+                }
+            ],
+            "title": "DynamoDB \u66f8\u304d\u8fbc\u307f (WCU)",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "cloudwatch",
+                "uid": "${DS_CLOUDWATCH}"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 24
+            },
+            "id": 5,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "cloudwatch",
+                        "uid": "${DS_CLOUDWATCH}"
+                    },
+                    "dimensions": {
+                        "FunctionName": "grafana-demo-alert-handler"
+                    },
+                    "expression": "",
+                    "id": "",
+                    "label": "",
+                    "logGroups": [],
+                    "matchExact": true,
+                    "metricEditorMode": 0,
+                    "metricName": "Duration",
+                    "metricQueryType": 0,
+                    "namespace": "AWS/Lambda",
+                    "period": "",
+                    "queryMode": "Metrics",
+                    "refId": "A",
+                    "region": "default",
+                    "sqlExpression": "",
+                    "statistic": "Average"
+                }
+            ],
+            "title": "Lambda \u5b9f\u884c\u6642\u9593 (ms)  ",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "cloudwatch",
+                "uid": "${DS_CLOUDWATCH}"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green"
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 32
+            },
+            "id": 4,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "auto",
+                "wideLayout": true
+            },
+            "pluginVersion": "10.4.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "cloudwatch",
+                        "uid": "${DS_CLOUDWATCH}"
+                    },
+                    "dimensions": {
+                        "FunctionName": "grafana-demo-alert-handler"
+                    },
+                    "expression": "",
+                    "id": "",
+                    "label": "",
+                    "logGroups": [],
+                    "matchExact": true,
+                    "metricEditorMode": 0,
+                    "metricName": "Errors",
+                    "metricQueryType": 0,
+                    "namespace": "AWS/Lambda",
+                    "period": "",
+                    "queryMode": "Metrics",
+                    "refId": "A",
+                    "region": "default",
+                    "sqlExpression": "",
+                    "statistic": "Sum"
+                }
+            ],
+            "title": "Lambda \u30a8\u30e9\u30fc\u6570",
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "type": "cloudwatch",
+                "uid": "${DS_CLOUDWATCH}"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "thresholds"
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green"
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 40
+            },
+            "id": 3,
+            "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "reduceOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "fields": "",
+                    "values": false
+                },
+                "showPercentChange": false,
+                "textMode": "auto",
+                "wideLayout": true
+            },
+            "pluginVersion": "10.4.1",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "cloudwatch",
+                        "uid": "${DS_CLOUDWATCH}"
+                    },
+                    "dimensions": {
+                        "FunctionName": "grafana-demo-alert-handler"
+                    },
+                    "expression": "",
+                    "id": "",
+                    "label": "",
+                    "logGroups": [],
+                    "matchExact": true,
+                    "metricEditorMode": 0,
+                    "metricName": "Invocations",
+                    "metricQueryType": 0,
+                    "namespace": "AWS/Lambda",
+                    "period": "",
+                    "queryMode": "Metrics",
+                    "refId": "A",
+                    "region": "default",
+                    "sqlExpression": "",
+                    "statistic": "Sum"
+                }
+            ],
+            "title": "Lambda \u5b9f\u884c\u56de\u6570",
+            "type": "stat"
+        },
+        {
+            "datasource": {
+                "type": "cloudwatch",
+                "uid": "${DS_CLOUDWATCH}"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green"
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 48
+            },
+            "id": 2,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "cloudwatch",
+                        "uid": "${DS_CLOUDWATCH}"
+                    },
+                    "dimensions": {
+                        "ApiId": "8ddkagusye"
+                    },
+                    "expression": "",
+                    "id": "",
+                    "label": "",
+                    "logGroups": [],
+                    "matchExact": true,
+                    "metricEditorMode": 0,
+                    "metricName": "4xx",
+                    "metricQueryType": 0,
+                    "namespace": "AWS/ApiGateway",
+                    "period": "",
+                    "queryMode": "Metrics",
+                    "refId": "A",
+                    "region": "ap-northeast-1",
+                    "sqlExpression": "",
+                    "statistic": "Sum"
+                },
+                {
+                    "datasource": {
+                        "type": "cloudwatch",
+                        "uid": "${DS_CLOUDWATCH}"
+                    },
+                    "dimensions": {
+                        "ApiId": "8ddkagusye"
+                    },
+                    "expression": "",
+                    "hide": false,
+                    "id": "",
+                    "label": "",
+                    "logGroups": [],
+                    "matchExact": true,
+                    "metricEditorMode": 0,
+                    "metricName": "5xx",
+                    "metricQueryType": 0,
+                    "namespace": "AWS/ApiGateway",
+                    "period": "",
+                    "queryMode": "Metrics",
+                    "refId": "B",
+                    "region": "ap-northeast-1",
+                    "sqlExpression": "",
+                    "statistic": "Sum"
+                }
+            ],
+            "title": " API \u30a8\u30e9\u30fc\u6570 (4XX/5XX)",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "cloudwatch",
+                "uid": "${DS_CLOUDWATCH}"
+            },
+            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green"
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 56
+            },
+            "id": 1,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "cloudwatch",
+                        "uid": "${DS_CLOUDWATCH}"
+                    },
+                    "dimensions": {
+                        "ApiId": "8ddkagusye"
+                    },
+                    "expression": "",
+                    "id": "",
+                    "label": "",
+                    "logGroups": [],
+                    "matchExact": true,
+                    "metricEditorMode": 0,
+                    "metricName": "Count",
+                    "metricQueryType": 0,
+                    "namespace": "AWS/ApiGateway",
+                    "period": "",
+                    "queryMode": "Metrics",
+                    "refId": "A",
+                    "region": "ap-northeast-1",
+                    "sqlExpression": "",
+                    "statistic": "Sum"
+                }
+            ],
+            "title": "API \u30ea\u30af\u30a8\u30b9\u30c8\u6570",
+            "type": "timeseries"
+        }
+    ],
+    "refresh": "",
+    "schemaVersion": 39,
+    "tags": [],
+    "templating": {
+        "list": []
+    },
+    "time": {
+        "from": "now-6h",
+        "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "Pseudo Facility Alert Monitoring",
+    "uid": "efkm2st0n0kqoa",
+    "version": 6,
+    "weekStart": ""
+}

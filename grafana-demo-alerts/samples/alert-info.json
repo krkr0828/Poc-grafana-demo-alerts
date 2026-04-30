@@ -1,0 +1,9 @@
+{
+  "alertId": "ALT-0003",
+  "facilityId": "FAC-003",
+  "facilityName": "第三変電所",
+  "severity": "info",
+  "alertType": "status_change",
+  "message": "設備状態の変更を検知しました",
+  "occurredAt": "2026-04-25T10:10:00+09:00"
+}

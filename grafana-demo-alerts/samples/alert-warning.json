@@ -1,0 +1,9 @@
+{
+  "alertId": "ALT-0002",
+  "facilityId": "FAC-002",
+  "facilityName": "第二変電所",
+  "severity": "warning",
+  "alertType": "voltage_drop",
+  "message": "電圧低下を検知しました",
+  "occurredAt": "2026-04-25T10:05:00+09:00"
+}
