@@ -1408,17 +1408,22 @@ fields @timestamp, @message
 ```
 
 **クエリ 2: severity 別件数**
+
+CloudWatch Logs Insights は JSON ログのフィールドを自動展開するため、`severity` / `event` フィールドへ直接アクセスできる。
+
 ```sql
-fields @timestamp, @message
-| filter @message like /severity/
-| parse @message '"severity":"*"' as severity
+fields @timestamp, severity, event
+| filter event = "REQUEST_RECEIVED"
 | stats count() by severity
 ```
 
 **クエリ 3: アラート件数推移（5 分ごと）**
+
+handler.py が出力するイベント名 `STORED`（DynamoDB 保存成功時）を集計対象とする。
+
 ```sql
-fields @timestamp, @message
-| filter @message like /alert accepted/
+fields @timestamp, event
+| filter event = "STORED"
 | stats count() by bin(5m)
 ```
 
@@ -1551,7 +1556,7 @@ fields @timestamp, severity
 | パネル名 | Namespace | MetricName | 統計 | ビジュアル |
 |---|---|---|---|---|
 | API リクエスト数 | AWS/ApiGateway | Count | Sum | Time series |
-| API エラー数（4xx/5xx） | AWS/ApiGateway | 4XXError + 5XXError | Sum | Time series |
+| API エラー数（4xx/5xx） | AWS/ApiGateway | 4xx + 5xx（HTTP API は小文字） | Sum | Time series |
 | Lambda 実行回数 | AWS/Lambda | Invocations | Sum | Stat |
 | Lambda エラー数 | AWS/Lambda | Errors | Sum | Stat |
 | Lambda 実行時間 | AWS/Lambda | Duration | Average | Time series |
